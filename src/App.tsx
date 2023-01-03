@@ -1,7 +1,9 @@
-import React from "react";
+import React, { FC, useState } from "react";
 import { Position, QuerySection } from "./QuerySection";
 
-export const App = () => {
+export const App: FC = () => {
+  const [searchResult, setSearchResult] = useState<string[]>([]);
+
   const handleSearch = async (
     text: string,
     imageText: string,
@@ -14,7 +16,10 @@ export const App = () => {
     );
 
     const json = await response.json();
-    console.log(json);
+    const urls = json.data.map((d: any) => d.images.downsized_medium.url);
+    setSearchResult(urls);
+
+    console.log(urls);
   };
 
   return <QuerySection search={handleSearch} />;
